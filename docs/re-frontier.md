@@ -97,3 +97,10 @@ Statuses: ✅ re-verified · 🟡 re-partial · 🔬 in-progress · ⬜ todo · 
 - where: game/render/overlay_pair.*; game/render/text_font.h; titles/spyro2/render/render_facts.h
 - gap: none
 - notes: Plans 0206 (in-game prompts) and 0207 (outline text) replace these cells at present time.
+### spyro2.title-strings — Spyro 2's title-screen messages as pre-rendered string images
+- status: re-partial
+- deps: spyro2.text-font
+- evidence: on the title screen's Select MEMORY CARD dialog (frame 1344, Start from the title) neither text layout runs (an override trace counted 0 calls), and the frame's only textured draws are five 0x64 sprites (e.g. 0x801CFA28: DR_TPAGE 0xE1000498 (x 512 y 256, 8bpp), 0x64808080, (96,4), uv (0x00,0x60) CLUT 0x7FA0, 160x104; the next pair DR_TPAGE 0xE100049A, x 640). VRAM at that frame holds every message of the memory-card and language screens as whole pre-rendered strings beside the dialog frame art ('Select MEMORY CARD:', 'Slot 1', 'press start', 'English' ... and a digit strip '01234 56789%'), so these strings have no font cells to replace. The message pointer tables are data at 0x80063B74 (memory-card messages) and 0x80061B70 ('Yes', 'No', 'Slot 1', 'Slot 2', ...); FUN_8004FB48 reads 0x80061B80 and draws through FUN_8004A59C in game.
+- where: —
+- gap: which code composes or loads the string images and which sprite rect shows which string.
+- notes: Plan 0207 cannot outline these through the font page; they need a string-to-rect table.
