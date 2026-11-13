@@ -78,6 +78,9 @@ The symbol map (`preparation/symbol_addrs.txt`) keeps the tree's names; ours ent
 | `0x80063448` | `g_HudSlideOutTable` | `D_80063448` | `titles/spyro2/render/render_facts.h` |  |
 | `0x800634B8` | `g_HudElementWidths` | `D_800634B8` | `titles/spyro2/render/hud_element.cpp` | The element's width and height in pixels, one byte per size index. |
 | `0x800634D0` | `g_Heights` | `D_800634D0` | `titles/spyro2/render/hud_element.cpp` |  |
+| `0x800636A4` | `g_TextGlyphCells` | `D_800636A4` | — | u16 per character code: bits 0-4 cell column (u 12·col), 5-7 row (v 9·row), 8-11 advance, 12-15 signed y offset; low byte 0xFF no cell |
+| `0x800637A4` | `g_TextEscapes` | `D_800637A4` | — | '@' escapes to 0x800637D2: (char, byte offset into g_TextGlyphCells; bit 7 an accent drawn back over the last letter) |
+| `0x800637D4` | `g_TextColours` | `D_800637D4` | — | ten SPRT colour words, chosen by the layouts' colour argument or '@' + digit |
 | `0x80064440` | `g_RenderFactsMobyDeferredPaletteTable` | `D_80064440` | `titles/spyro2/render/render_facts.h` |  |
 | `0x80064940` | `g_LevelIndexTable` | `D_80064940` | `titles/spyro2/core/warp.cpp` | Byte per level id: its index into the name and homeworld tables. |
 | `0x800649B4` | `g_LevelNames` | `D_800649B4` | `titles/spyro2/core/warp.cpp` |  |

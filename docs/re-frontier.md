@@ -89,3 +89,11 @@ Statuses: ✅ re-verified · 🟡 re-partial · 🔬 in-progress · ⬜ todo · 
 - evidence: game state 9 (`0x800681C8`) runs the death fall (full-width clear, rain, Spyro) and then GAME OVER: four 128x216 sprites (`0x64`) at (0..511, 12) carry the sky, mountains and the GAME OVER lettering; the only other draws are Spyro's flying model (140-165 gouraud polygons, x 417..493), so the margins show the guest's clear (16,24,24). Same pattern and same decision as Spyro 3's story pictures (issue 0234). Route: `warp 0/4/0`, hold Left from arrival until Spyro walks off the start ledge (state 9 at fence ~2678, picture by 2800); `scratch/spyro23d/go/ot*.txt`, `go_sheet.png`, `fall_sheet.png`.
 - where: guest only
 - gap: none; kept at 4:3.
+
+### spyro2.text-font — Spyro 2's 2D text font and button icons
+- status: re-verified
+- deps: spyro2.identity
+- evidence: FUN_8004A374 (sprites) and FUN_8004A59C (quads), decompiled from SCUS_944.25, lay a string from the primitive cursor *0x80067030 and link it through the pair *0x80067000: a DR_TPAGE 0xE1000618 (texture page x 512 y 256, 4bpp), then per byte the cell from g_TextGlyphCells 0x800636A4 (column bits 0-4 at u 12·col, row bits 5-7 at v 9·row, advance bits 8-11, signed y offset bits 12-15, 0xFF a space of 10, quads 8 when narrow), 12x9 texels, coloured by g_TextColours 0x800637D4[colour] through CLUT word 0x4922. '@' + c reads g_TextEscapes 0x800637A4 (inverted ! and ?, sharp s, accents drawn back over the last letter, bit 7); '@' + digit not in it switches colour. '<' '>' '{' '}' (cells 105-108) are the pad's button icons, drawn unmodulated (0x64808080) through CLUT word 0x4962: '<' Cross, '>' Square, '{' Circle, '}' Triangle, read from the retail strings that use them (SCUS_944.25 'Press < To Continue'; WAD.WAD 'Press < button to jump off ramp', 'jump and then press } to headbash', 'hold down the > button to charge', 'fire away with the { button'). The page decoded from VRAM in Summer Forest (raw dump, CLUT words 0x4922 and 0x4962) shows cells 105-108 as the cross, square, circle and triangle and the A-Z, a-z, 0-9 and punctuation cells where the table puts them.
+- where: game/render/overlay_pair.*; titles/spyro2/render/render_facts.h
+- gap: none
+- notes: Plans 0206 (in-game prompts) and 0207 (outline text) replace these cells at present time.
