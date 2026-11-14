@@ -97,6 +97,13 @@ Statuses: ✅ re-verified · 🟡 re-partial · 🔬 in-progress · ⬜ todo · 
 - where: game/render/overlay_pair.*; game/render/text_font.h; titles/spyro2/render/render_facts.h
 - gap: none
 - notes: Plans 0206 (in-game prompts) and 0207 (outline text) replace these cells at present time.
+### spyro2.hud-digits — Spyro 2's HUD counter digits
+- status: re-verified
+- deps: spyro2.text-font
+- evidence: FUN_8005251C(counter, icon, x, y), decompiled from SCUS_944.25, draws nothing when the counter's first byte is 0; else its icon through FUN_800520CC(icon, x, y + bob, size 1), then the value at counter + 4 right to left, one digit every 24 pixels from x + 16 + 24 * digits, each through FUN_800520CC(0x8006351C + 4 * digit, x', y + bob + 2, size 0). FUN_800520CC(image, x, y, size) draws a SPRT (0x64, 0x66 when image byte 2 bit 7) for a KSEG0 image, else a mirrored POLY_FT4 on DR_TPAGE 0x38, both w x h from bytes 0x800634B8 and 0x800634D0 [size] (size 0: 24x16), u v from image bytes 0 and 1, CLUT word (byte 2 & 3) + byte 3 * 0x40 + 0x4020, linked by FUN_8001B390. The images at 0x8006351C (4 bytes each) are digits 0-9 at u 24 * i, v 45 and 10 at u 240 (16 texels before u wraps), CLUT (544, 294). The page (512, 256) decoded from VRAM in Summer Forest's pause shows the digits there, under the 2D font's five rows of cells: gold bands of rows (4, A, 1, E, 6, 3, 5, F, 8 down the glyph) over a drop shadow one texel right and below in indices 2, 7 and D (the hole of 0 shadowed on its top and left edges).
+- where: titles/spyro2/render/hud_element.*; titles/spyro2/render/render_facts.h
+- gap: none
+- notes: Plan 0207 phase 2d draws these digits from an outline font.
 ### spyro2.title-strings — Spyro 2's title-screen messages as pre-rendered string images
 - status: re-partial
 - deps: spyro2.text-font
